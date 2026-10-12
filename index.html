@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Brace — Authentic Italian Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --espresso: #2C1A0E;
+  --amber:    #C8882A;
+  --amber-light: #E8A84A;
+  --parchment:#FAF3E8;
+  --parchment-dark: #F0E6D0;
+  --sage:     #8A9E7A;
+  --brick:    #C4614A;
+  --white:    #FFFDF9;
+  --text:     #2C1A0E;
+  --muted:    #7A6050;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--parchment);
+  color: var(--text);
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 60% 30%, rgba(200,136,42,.18) 0%, transparent 65%),
+    radial-gradient(ellipse at 20% 80%, rgba(138,158,122,.15) 0%, transparent 60%),
+    #1A0D06;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.03) 39px, rgba(255,255,255,.03) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.03) 39px, rgba(255,255,255,.03) 40px);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: .8rem;
+  letter-spacing: .22em;
+  color: var(--amber-light);
+  margin-bottom: 1.1rem;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 700;
+  color: var(--parchment);
+  line-height: 1.05;
+  margin-bottom: .5rem;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber-light);
+}
+.hero-sub {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(250,243,232,.65);
+  max-width: 36ch;
+  margin: 0 auto 2.4rem;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--amber);
+  color: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: .06em;
+  padding: .85rem 2.4rem;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background .2s;
+}
+.hero-cta:hover { background: var(--amber-light); color: var(--espresso); }
+
+.hero-flame {
+  position: absolute;
+  bottom: 1.5rem;
+  font-size: 2rem;
+  animation: flicker 2.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px rgba(200,136,42,.7));
+}
+@keyframes flicker {
+  0%   { transform: scaleY(1)   rotate(-2deg); opacity: .9; }
+  100% { transform: scaleY(1.1) rotate(2deg);  opacity: 1; }
+}
+
+/* ── NAV TABS ── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--espresso);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 2px solid var(--amber);
+}
+.sticky-nav::-webkit-scrollbar { display: none; }
+.nav-tab {
+  flex-shrink: 0;
+  padding: .9rem 1.6rem;
+  color: rgba(250,243,232,.5);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: 'Lato', sans-serif;
+}
+.nav-tab:hover  { color: var(--parchment); }
+.nav-tab.active { color: var(--amber-light); border-bottom-color: var(--amber-light); }
+
+/* ── MENU SECTIONS ── */
+.menu-section {
+  display: none;
+  padding: 2.8rem 1.2rem 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.menu-section.active { display: block; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--espresso);
+  margin-bottom: .3rem;
+}
+.section-desc {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--parchment-dark);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.menu-item {
+  background: var(--white);
+  padding: 1.3rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: .5rem;
+}
+.item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--espresso);
+}
+.item-price {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.item-desc {
+  font-size: .83rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.item-tags {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  margin-top: .2rem;
+}
+.tag {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: .15rem .5rem;
+  border-radius: 2px;
+  background: var(--parchment-dark);
+  color: var(--muted);
+}
+.tag.veg   { background: #e8f0e4; color: var(--sage); }
+.tag.spicy { background: #fce8e4; color: var(--brick); }
+.add-btn {
+  margin-top: .7rem;
+  align-self: flex-start;
+  background: none;
+  border: 1.5px solid var(--amber);
+  color: var(--amber);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: .8rem;
+  padding: .35rem .9rem;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: .05em;
+  transition: background .15s, color .15s;
+}
+.add-btn:hover { background: var(--amber); color: var(--white); }
+
+/* ── CART FAB ── */
+.cart-fab {
+  position: fixed;
+  bottom: 1.8rem;
+  right: 1.5rem;
+  z-index: 80;
+  background: var(--espresso);
+  color: var(--parchment);
+  border: none;
+  border-radius: 50px;
+  padding: .9rem 1.5rem;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  box-shadow: 0 4px 20px rgba(44,26,14,.35);
+  transition: transform .15s, background .15s;
+}
+.cart-fab:hover { background: var(--amber); transform: translateY(-2px); }
+.cart-fab.hidden { display: none; }
+.cart-badge {
+  background: var(--amber);
+  color: var(--white);
+  font-size: .72rem;
+  font-weight: 700;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── CART MODAL ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28,14,4,.55);
+  z-index: 90;
+  backdrop-filter: blur(3px);
+}
+.overlay.open { display: block; }
+
+.cart-drawer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  background: var(--parchment);
+  border-radius: 18px 18px 0 0;
+  padding: 1.8rem 1.5rem calc(1.8rem + env(safe-area-inset-bottom, 0px));
+  max-width: 600px;
+  margin: 0 auto;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform .35s cubic-bezier(.32,1,.58,1);
+}
+.cart-drawer.open { transform: translateY(0); }
+
+.drawer-handle {
+  width: 3rem;
+  height: 4px;
+  background: var(--parchment-dark);
+  border-radius: 2px;
+  margin: 0 auto 1.4rem;
+}
+.drawer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+  color: var(--espresso);
+}
+.cart-items-list { margin-bottom: 1.2rem; }
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--parchment-dark);
+  gap: .5rem;
+}
+.cart-row-name { font-weight: 700; font-size: .95rem; flex: 1; }
+.cart-row-price { font-size: .9rem; color: var(--amber); font-weight: 700; white-space: nowrap; }
+.cart-row-remove {
+  background: none;
+  border: none;
+  color: var(--brick);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: .2rem .3rem;
+}
+.cart-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--espresso);
+  margin: .8rem 0 1.4rem;
+  text-align: right;
+}
+.cart-total span { color: var(--amber); }
+
+/* Name form */
+.name-section label {
+  display: block;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .5rem;
+}
+.name-section input {
+  width: 100%;
+  padding: .8rem 1rem;
+  border: 1.5px solid var(--parchment-dark);
+  border-radius: 3px;
+  background: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--espresso);
+  outline: none;
+  transition: border-color .2s;
+}
+.name-section input:focus { border-color: var(--amber); }
+.name-section input::placeholder { color: #bba897; }
+
+.confirm-btn {
+  margin-top: 1.1rem;
+  width: 100%;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 1rem;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: .04em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  transition: background .2s;
+}
+.confirm-btn:hover { background: #1ebe5c; }
+.confirm-btn svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+
+.empty-cart {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* ── ABOUT + HOURS ── */
+.info-band {
+  background: var(--espresso);
+  color: var(--parchment);
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 700px;
+  margin: 2rem auto 0;
+}
+.info-block h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--amber-light);
+  margin-bottom: .5rem;
+}
+.info-block p { font-size: .88rem; color: rgba(250,243,232,.7); line-height: 1.7; }
+.info-band > p { font-size: .9rem; color: rgba(250,243,232,.6); }
+.info-band > h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--parchment);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #130900;
+  color: rgba(250,243,232,.35);
+  text-align: center;
+  padding: 1.4rem;
+  font-size: .8rem;
+}
+
+/* toast */
+.toast {
+  position: fixed;
+  top: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: var(--espresso);
+  color: var(--parchment);
+  padding: .75rem 1.5rem;
+  border-radius: 50px;
+  font-size: .88rem;
+  font-weight: 700;
+  z-index: 200;
+  transition: transform .3s cubic-bezier(.32,1,.58,1);
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Est. 1998 — Rome, Italy</p>
+  <h1>La <em>Brace</em></h1>
+  <p class="hero-sub">Handmade pasta, wood-fired pizzas, and the smell of garlic in olive oil — just like nonna made it.</p>
+  <a href="#menu" class="hero-cta">See the menu</a>
+  <span class="hero-flame">🔥</span>
+</section>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav" id="menu">
+  <button class="nav-tab active" onclick="switchTab('starters')">Starters</button>
+  <button class="nav-tab" onclick="switchTab('pasta')">Pasta</button>
+  <button class="nav-tab" onclick="switchTab('pizza')">Pizza</button>
+  <button class="nav-tab" onclick="switchTab('mains')">Mains</button>
+  <button class="nav-tab" onclick="switchTab('desserts')">Desserts</button>
+  <button class="nav-tab" onclick="switchTab('drinks')">Drinks</button>
+</nav>
+
+<!-- ─── STARTERS ─── -->
+<div class="menu-section active" id="tab-starters">
+  <h2 class="section-title">Starters</h2>
+  <p class="section-desc">Small bites to open the appetite</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Bruschetta al Pomodoro</span><span class="item-price">$7</span></div>
+      <p class="item-desc">Grilled sourdough, crushed heirloom tomatoes, basil oil, sea salt.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Bruschetta al Pomodoro', 7)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Burrata &amp; Prosciutto</span><span class="item-price">$14</span></div>
+      <p class="item-desc">Creamy burrata, 24-month prosciutto di Parma, fig jam, toasted pine nuts.</p>
+      <div class="item-tags"></div>
+      <button class="add-btn" onclick="addItem('Burrata & Prosciutto', 14)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Arancini della Casa</span><span class="item-price">$9</span></div>
+      <p class="item-desc">Crispy saffron rice balls stuffed with ragù and mozzarella, marinara dip.</p>
+      <div class="item-tags"></div>
+      <button class="add-btn" onclick="addItem('Arancini della Casa', 9)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Zuppa di Funghi</span><span class="item-price">$10</span></div>
+      <p class="item-desc">Wild mushroom soup, truffle oil, croutons, shaved Parmigiano.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Zuppa di Funghi', 10)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PASTA ─── -->
+<div class="menu-section" id="tab-pasta">
+  <h2 class="section-title">Pasta</h2>
+  <p class="section-desc">All pasta made fresh in-house every morning</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Cacio e Pepe</span><span class="item-price">$16</span></div>
+      <p class="item-desc">Tonnarelli, Pecorino Romano, Parmigiano, coarsely cracked black pepper. Nothing more.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Cacio e Pepe', 16)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Tagliatelle al Ragù</span><span class="item-price">$19</span></div>
+      <p class="item-desc">Slow-cooked beef and pork ragù, egg tagliatelle, 6-hour Bolognese sauce.</p>
+      <button class="add-btn" onclick="addItem('Tagliatelle al Ragù', 19)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Gnocchi al Gorgonzola</span><span class="item-price">$17</span></div>
+      <p class="item-desc">Pillowy potato gnocchi, creamy gorgonzola dolce, toasted walnuts, honey.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Gnocchi al Gorgonzola', 17)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Spaghetti alle Vongole</span><span class="item-price">$21</span></div>
+      <p class="item-desc">Fresh clams, white wine, garlic, chili, flat-leaf parsley, good olive oil.</p>
+      <div class="item-tags"><span class="tag spicy">Mild heat</span></div>
+      <button class="add-btn" onclick="addItem('Spaghetti alle Vongole', 21)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Pappardelle al Cinghiale</span><span class="item-price">$22</span></div>
+      <p class="item-desc">Wide egg pasta, slow-braised wild boar, juniper, rosemary, red wine reduction.</p>
+      <button class="add-btn" onclick="addItem('Pappardelle al Cinghiale', 22)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Lasagna della Nonna</span><span class="item-price">$18</span></div>
+      <p class="item-desc">Layered with béchamel, ragù, mozzarella, and Parmigiano. Baked to order.</p>
+      <button class="add-btn" onclick="addItem('Lasagna della Nonna', 18)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PIZZA ─── -->
+<div class="menu-section" id="tab-pizza">
+  <h2 class="section-title">Pizza</h2>
+  <p class="section-desc">Wood-fired at 450 °C for 90 seconds</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Margherita</span><span class="item-price">$14</span></div>
+      <p class="item-desc">San Marzano tomato, fior di latte mozzarella, fresh basil, extra-virgin olive oil.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Pizza Margherita', 14)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Diavola</span><span class="item-price">$17</span></div>
+      <p class="item-desc">Spicy Calabrian salami, smoked scamorza, San Marzano, chili honey drizzle.</p>
+      <div class="item-tags"><span class="tag spicy">Spicy</span></div>
+      <button class="add-btn" onclick="addItem('Pizza Diavola', 17)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Tartufo e Funghi</span><span class="item-price">$21</span></div>
+      <p class="item-desc">White base, mixed mushrooms, truffle cream, Taleggio, fresh thyme.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Pizza Tartufo e Funghi', 21)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Prosciutto e Rucola</span><span class="item-price">$19</span></div>
+      <p class="item-desc">Prosciutto crudo, rocket, shaved Parmigiano, lemon zest, tomato base.</p>
+      <button class="add-btn" onclick="addItem('Pizza Prosciutto e Rucola', 19)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MAINS ─── -->
+<div class="menu-section" id="tab-mains">
+  <h2 class="section-title">Mains</h2>
+  <p class="section-desc">Secondi piatti — the heart of the meal</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Bistecca alla Fiorentina</span><span class="item-price">$38</span></div>
+      <p class="item-desc">600g T-bone, Chianina beef, wood-fired, rosemary salt, lemon, grilled greens.</p>
+      <button class="add-btn" onclick="addItem('Bistecca alla Fiorentina', 38)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Branzino al Cartoccio</span><span class="item-price">$29</span></div>
+      <p class="item-desc">Whole sea bass baked in parchment with capers, olives, cherry tomatoes, white wine.</p>
+      <button class="add-btn" onclick="addItem('Branzino al Cartoccio', 29)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Pollo alla Cacciatora</span><span class="item-price">$24</span></div>
+      <p class="item-desc">Free-range chicken, hunter's sauce, tomatoes, olives, rosemary, polenta.</p>
+      <button class="add-btn" onclick="addItem('Pollo alla Cacciatora', 24)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Melanzane alla Parmigiana</span><span class="item-price">$18</span></div>
+      <p class="item-desc">Baked aubergine layers, tomato, basil, mozzarella, Parmigiano. A classic.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Melanzane alla Parmigiana', 18)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DESSERTS ─── -->
+<div class="menu-section" id="tab-desserts">
+  <h2 class="section-title">Desserts</h2>
+  <p class="section-desc">End on a sweet note</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Tiramisù della Casa</span><span class="item-price">$9</span></div>
+      <p class="item-desc">The real one. Mascarpone, savoiardi, espresso, Marsala, cocoa. Made yesterday.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Tiramisù della Casa', 9)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Panna Cotta al Miele</span><span class="item-price">$8</span></div>
+      <p class="item-desc">Set cream, wildflower honey, poached pear, crushed amaretti.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Panna Cotta al Miele', 8)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Cannolo Siciliano</span><span class="item-price">$7</span></div>
+      <p class="item-desc">Crispy shell, sweet ricotta, candied orange peel, dark chocolate chips.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Cannolo Siciliano', 7)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DRINKS ─── -->
+<div class="menu-section" id="tab-drinks">
+  <h2 class="section-title">Drinks</h2>
+  <p class="section-desc">Wine, cocktails, and more</p>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Aperol Spritz</span><span class="item-price">$11</span></div>
+      <p class="item-desc">Aperol, Prosecco, soda, orange slice. The golden hour in a glass.</p>
+      <button class="add-btn" onclick="addItem('Aperol Spritz', 11)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Negroni</span><span class="item-price">$13</span></div>
+      <p class="item-desc">Gin, Campari, sweet vermouth, orange peel. Stirred, never shaken.</p>
+      <button class="add-btn" onclick="addItem('Negroni', 13)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Chianti Classico (glass)</span><span class="item-price">$12</span></div>
+      <p class="item-desc">House Chianti Classico DOCG. Bold, dry, earthy — the Tuscan table wine.</p>
+      <button class="add-btn" onclick="addItem('Chianti Classico (glass)', 12)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Sparkling Water</span><span class="item-price">$4</span></div>
+      <p class="item-desc">San Pellegrino, 500ml.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('San Pellegrino Sparkling Water', 4)">Add to order</button>
+    </div>
+    <div class="menu-item">
+      <div class="item-top"><span class="item-name">Espresso</span><span class="item-price">$3.5</span></div>
+      <p class="item-desc">Single origin beans, La Marzocco machine. Short and strong, the Italian way.</p>
+      <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      <button class="add-btn" onclick="addItem('Espresso', 3.5)">Add to order</button>
+    </div>
+  </div>
+</div>
+
+<!-- INFO BAND -->
+<div class="info-band">
+  <h2>Come as you are. Stay for seconds.</h2>
+  <p>We cook everything to order — please allow a little patience. It's worth it.</p>
+  <div class="info-grid">
+    <div class="info-block">
+      <h3>Hours</h3>
+      <p>Monday – Friday<br>12:00 – 15:00 &amp; 19:00 – 23:00<br><br>Saturday – Sunday<br>12:00 – 23:30</p>
+    </div>
+    <div class="info-block">
+      <h3>Find us</h3>
+      <p>14 Via delle Stelle<br>Rabat, 10000<br><br>+212 6 23 45 67 89</p>
+    </div>
+    <div class="info-block">
+      <h3>Order online</h3>
+      <p>Pick your dishes, enter your name, and confirm. We'll receive your order on WhatsApp and get right to it.</p>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 La Brace — All rights reserved</footer>
+
+<!-- CART FAB -->
+<button class="cart-fab hidden" id="cartFab" onclick="openCart()">
+  🛒 View order <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-handle"></div>
+  <h2 class="drawer-title">Your order 🍽️</h2>
+  <div class="cart-items-list" id="cartList"></div>
+  <div class="cart-total" id="cartTotal"></div>
+  <div class="name-section">
+    <label for="customerName">Your name</label>
+    <input type="text" id="customerName" placeholder="e.g. Marco Rossi" maxlength="40">
+  </div>
+  <button class="confirm-btn" onclick="confirmOrder()">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.503 3.935 1.388 5.608L0 24l6.543-1.374A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-4.964-1.349l-.356-.211-3.883.816.827-3.797-.232-.369A9.79 9.79 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    Confirm & send via WhatsApp
+  </button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── state
+const cart = [];
+const WHATSAPP_NUMBER = '1234567890'; // ← replace with real number
+
+// ── tab switching
+function switchTab(name) {
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── cart
+function addItem(name, price) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) { existing.qty++; }
+  else { cart.push({ name, price, qty: 1 }); }
+  updateFab();
+  showToast('Added: ' + name);
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  updateFab();
+  renderCartList();
+}
+
+function updateFab() {
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  const fab = document.getElementById('cartFab');
+  document.getElementById('cartBadge').textContent = total;
+  fab.classList.toggle('hidden', total === 0);
+}
+
+function openCart() {
+  renderCartList();
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('cartDrawer').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('cartDrawer').classList.remove('open');
+}
+
+function renderCartList() {
+  const list = document.getElementById('cartList');
+  const totalEl = document.getElementById('cartTotal');
+  if (cart.length === 0) {
+    list.innerHTML = '<div class="empty-cart">No items yet. Browse the menu and add something!</div>';
+    totalEl.innerHTML = '';
+    return;
+  }
+  list.innerHTML = cart.map((item, i) => `
+    <div class="cart-row">
+      <span class="cart-row-name">${item.qty > 1 ? item.qty + '× ' : ''}${item.name}</span>
+      <span class="cart-row-price">$${(item.price * item.qty).toFixed(2)}</span>
+      <button class="cart-row-remove" onclick="removeItem(${i})" title="Remove">✕</button>
+    </div>
+  `).join('');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  totalEl.innerHTML = 'Total: <span>$' + total.toFixed(2) + '</span>';
+}
+
+function confirmOrder() {
+  const name = document.getElementById('customerName').value.trim();
+  if (!name) {
+    document.getElementById('customerName').focus();
+    showToast('Please enter your name first 😊');
+    return;
+  }
+  if (cart.length === 0) {
+    showToast('Your cart is empty!');
+    return;
+  }
+  const itemLines = cart.map(i => `• ${i.qty > 1 ? i.qty + '× ' : ''}${i.name} — $${(i.price * i.qty).toFixed(2)}`).join('\n');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
+  const msg = `Hello La Brace! 🍽️\n\nNew order from *${name}*:\n\n${itemLines}\n\n*Total: $${total}*\n\nThank you!`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ── toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
